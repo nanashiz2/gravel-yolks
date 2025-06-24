@@ -27,21 +27,21 @@ if [ -z "${AUTO_UPDATE}" ] || [ "${AUTO_UPDATE}" == "1" ]; then
 
     echo -e "Backing up config files"
     mkdir -p /tmp/config_backup
-    cp -v server.properties /tmp/config_backup/ 2>/dev/null
-    cp -v permissions.json /tmp/config_backup/ 2>/dev/null
-    cp -v allowlist.json /tmp/config_backup/ 2>/dev/null
+    cp server.properties /tmp/config_backup/ 2>/dev/null
+    cp permissions.json /tmp/config_backup/ 2>/dev/null
+    cp allowlist.json /tmp/config_backup/ 2>/dev/null
 
     echo -e "Downloading files from: $DOWNLOAD_URL"
-    curl -L -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.$RANDVERSION.212 Safari/537.36" -H "Accept-Language: en" -o $DOWNLOAD_FILE $DOWNLOAD_URL
+    curl --progress-bar -L -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.$RANDVERSION.212 Safari/537.36" -H "Accept-Language: en" -o $DOWNLOAD_FILE $DOWNLOAD_URL
 
-    echo -e "Unpacking server files"
-    unzip -o $DOWNLOAD_FILE
+    echo -e "Unpacking server files..."
+    unzip -o -q $DOWNLOAD_FILE
 
     echo -e "Cleaning up after installing"
     rm $DOWNLOAD_FILE
 
-    echo -e "Restoring backup config files"
-    cp -rfv /tmp/config_backup/* /home/container/ 2>/dev/null || { echo "No files to restore"; }
+    echo -e "Restoring backup config files..."
+    cp -rf /tmp/config_backup/* /home/container/ 2>/dev/null || echo "No files to restore"
 
     chmod +x bedrock_server
 
