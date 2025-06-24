@@ -26,6 +26,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./debian
+          file: ./debian/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/bedrock-debian:latest
