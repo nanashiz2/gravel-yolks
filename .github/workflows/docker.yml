@@ -26,8 +26,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: debian
-          file: debian/Dockerfile
+          context: ../debian
+          file: ../debian/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/bedrock-debian:latest
 
@@ -48,7 +48,7 @@ jobs:
       - name: Build and push Satisfactory Docker image
         uses: docker/build-push-action@v5
         with:
-          context: steamcmd/debian-satisfactory
-          file: steamcmd/debian-satisfactory/Dockerfile
+          context: ../steamcmd/debian-satisfactory
+          file: ../steamcmd/debian-satisfactory/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/satisfactory-debian:latest
