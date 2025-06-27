@@ -43,8 +43,16 @@ if [ "${STEAM_USER}" == "anonymous" ]; then
 	STEAM_AUTH=""
 fi
 
+# --- Proton Environment Setup ---
+# Set up Proton environment variables if Proton is present
+if [ -d "/usr/local/bin/dist" ]; then
+    export STEAM_COMPAT_CLIENT_INSTALL_PATH="/usr/local/bin"
+    export STEAM_COMPAT_DATA_PATH="/home/container/.steam/steam/steamapps/compatdata/${SRCDS_APPID:-2430930}"
+    mkdir -p "$STEAM_COMPAT_DATA_PATH"
+    export PATH=$PATH:/root/.local/bin
+fi
+
 # --- ARK: Survival Ascended Auto-Update Block ---
-# Set up directories for steamcmd and server files
 mkdir -p /home/container/steamcmd
 mkdir -p /home/container/steamapps
 cd /home/container/steamcmd
@@ -59,7 +67,7 @@ fi
 SRCDS_APPID=${SRCDS_APPID:-2430930}  # Default to ARK: Survival Ascended appid
 ./steamcmd.sh +force_install_dir /home/container \
     +login "${STEAM_USER}" "${STEAM_PASS}" "${STEAM_AUTH}" \
-    $( [[ "${WINDOWS_INSTALL}" == "1" ]] && printf %s '+@sSteamCmdForcePlatformType windows' ) \
+    +@sSteamCmdForcePlatformType windows \
     +app_update ${SRCDS_APPID} \
     $( [[ -z ${SRCDS_BETAID} ]] || printf %s "-beta ${SRCDS_BETAID}" ) \
     $( [[ -z ${SRCDS_BETAPASS} ]] || printf %s "-betapassword ${SRCDS_BETAPASS}" ) \
