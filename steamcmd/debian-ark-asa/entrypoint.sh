@@ -82,6 +82,12 @@ mkdir -p /home/container/.steam/sdk64
 cp -v linux64/steamclient.so ../.steam/sdk64/steamclient.so
 # --- End ARK: Survival Ascended Auto-Update Block ---
 
+# Ensure ShooterGame log directory and file exist for tail/rcon
+mkdir -p /home/container/ShooterGame/Saved/Logs
+if [ ! -f /home/container/ShooterGame/Saved/Logs/ShooterGame.log ]; then
+    echo "--fresh install--" > /home/container/ShooterGame/Saved/Logs/ShooterGame.log
+fi
+
 # Replace Startup Variables
 MODIFIED_STARTUP=$(echo ${STARTUP} | sed -e 's/{{/${/g' -e 's/}}/}/g')
 echo -e ":/home/container$ ${MODIFIED_STARTUP}"
