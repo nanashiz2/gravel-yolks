@@ -1,37 +1,12 @@
-name: Build and Push Docker image
+name: Build and Push ARK Survival Ascended Docker image
 
 on:
   push:
-    branches: [ main ]  # or your preferred branch
+    branches:
+      - main
 
 jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: debian
-          file: debian/Dockerfile
-          push: true
-          tags: ghcr.io/${{ github.repository_owner }}/bedrock-debian:latest
-
-  build-and-push-satisfactory:
+  build-and-push-ark-sa:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -45,10 +20,10 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push Satisfactory Docker image
+      - name: Build and push ARK Survival Ascended Docker image
         uses: docker/build-push-action@v5
         with:
-          context: steamcmd/debian-satisfactory
-          file: steamcmd/debian-satisfactory/Dockerfile
+          context: steamcmd/debian-ark-asa
+          file: steamcmd/debian-ark-asa/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/satisfactory-debian:latest
+          tags: ghcr.io/${{ github.repository_owner }}/debian-ark-sa:latest
